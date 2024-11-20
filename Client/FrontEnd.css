@@ -1,0 +1,52 @@
+@font-face {
+    font-family: 'CustomFont'; /* Choose a name for your font */
+    src: url('Fonts/Mockads.otf') format('truetype'); /* Path to the font file */
+    font-weight: normal; /* Specify the weight (optional) */
+    font-style: normal; /* Specify the style (optional) */
+}
+/* General Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Make the whole page a button */
+button.full-page-button {
+    background: url('HomePage.png') no-repeat center center fixed; /* Background image */
+    background-size: cover;
+    border: none;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    outline: none;
+    color: #fff;
+    font-size: 1.5rem;
+}
+
+/* Style the header in the center */
+.header-container h1 {
+    font-size: 4rem; /* Make it larger */
+    font-family: 'Oswald', sans-serif; /* Unique font from Google Fonts */
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.7); /* Black semi-transparent background */
+    padding: 20px 40px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Add hover effect for the button */
+button.full-page-button:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
