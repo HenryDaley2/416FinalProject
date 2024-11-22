@@ -1,0 +1,90 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #000; /* Sleek black background */
+    color: #fff; /* White text */
+    font-family: 'Arial', sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Centered Login Container */
+.login-container {
+    text-align: center;
+}
+
+/* Login Box */
+.login-box {
+    background: #1c1c1c; /* Dark grey box */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+    width: 300px;
+    margin: 20px auto;
+}
+
+.login-box h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* Input Fields */
+.login-box input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background: #2c2c2c; /* Slightly lighter than the box */
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.login-box input::placeholder {
+    color: #bbb; /* Lighter placeholder text */
+}
+
+.login-box input:focus {
+    outline: 2px solid #4caf50; /* Green focus outline */
+}
+
+/* Login Button */
+.login-box button {
+    width: 100%;
+    padding: 10px;
+    background: #4caf50; /* Green button */
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-box button:hover {
+    background: #45a049; /* Slightly darker green */
+}
+
+/* View Stonks Button */
+.view-stonks-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #007bff; /* Blue button */
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.view-stonks-button:hover {
+    background: #0056b3; /* Slightly darker blue */
+}
