@@ -1,0 +1,95 @@
+/* General Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #1c1c1c; /* Dark background */
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Ticker Container */
+.ticker-container {
+    width: 100%;
+    background-color: #121212; /* Darker section for ticker */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+}
+
+/* Ticker */
+.ticker {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Stock Card for Ticker */
+.stock-card {
+    background-color: #252525; /* Slightly lighter for contrast */
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    animation: fade-in-out 5s infinite; /* Fading effect for rotation */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    min-width: 300px;
+}
+
+/* Stock Name */
+.stock-name {
+    font-size: 1.8rem;
+    margin: 0;
+    color: #f5f5f5;
+}
+
+/* Stock Symbol */
+.stock-symbol {
+    font-size: 1rem;
+    color: #aaa;
+}
+
+/* Stock Price */
+.stock-price {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin: 10px 0;
+    color: #00cc66;
+}
+
+/* Stock Change (Gain/Loss) */
+.stock-change {
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+/* Positive and Negative Styling */
+.stock-change.positive {
+    color: #28a745;
+}
+
+.stock-change.negative {
+    color: #dc3545;
+}
+
+/* Fade-in-out Animation */
+@keyframes fade-in-out {
+    0%, 100% {
+        opacity: 0;
+    }
+    10%, 90% {
+        opacity: 1;
+    }
+}
