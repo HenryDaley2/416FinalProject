@@ -11,7 +11,7 @@ app.use(express.static(path.join(__dirname, '../client')));
 
 // Serve the home page or portfolio page based on the routes
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client', 'portfolio.html'));
+    res.sendFile(path.join(__dirname, '../client', 'login.html'));
 });
 
 // Create
@@ -131,30 +131,53 @@ app.get('/stocks', (req, res) => {
     });
 });
 
+// Get stock data by StockID
+app.get('/stock/:stock_id', (req, res) => {
+    const { stock_id } = req.params;
+    if (!stock_id) {
+        return res.status(400).json({ error: 'Stock ID is required' });
+    }
+    db.get(`SELECT * FROM Stocks WHERE StockID = ?`, [stock_id], (err, row) => {
+        if (err) {
+            console.error('Database error:', err.message);
+            return res.status(400).json({ error: err.message });
+        }
+        res.json(row);
+    });
+});
+
 // Serve the portfolio page
 app.get('/portfolio-page', (req, res) => {
-    res.sendFile(path.join(__dirname, '../Client', 'portfolio.html'));
+    res.sendFile(path.join(__dirname, '../Client', 'ViewPortfolio.html'));
 });
 
 // retrieve portfolio details for a specific user from database
 // Get portfolio data for a user
 app.get('/portfolio/:user_id', (req, res) => {
     const { user_id } = req.params;
-    db.all(`SELECT p.PortfolioID, s.TickerSymbol, p.SharesOwned, s.openPrice, s.closePrice, s.Difference, s.Date
+    if (!user_id) {
+        return res.status(400).json({ error: 'User ID is required' });
+    }
+    db.all(
+        `SELECT * FROM Portfolios WHERE UserID = ?`
+        /*
+          `SELECT p.PortfolioID, s.TickerSymbol, p.SharesOwned, s.openPrice, s.closePrice, s.Difference, s.Date
             FROM Portfolios p
             JOIN Stocks s ON p.StockID = s.StockID
-            WHERE p.UserID = ?`, [user_id], (err, rows) => {
+            WHERE p.UserID = ?`
+            */, [user_id], (err, rows) => {
         if (err) {
+            console.error('Database error:', err.message);
             return res.status(400).json({ error: err.message });
         }
         if (rows.length === 0) {
-            return res.status(404).json({ message: 'No portfolio found for this user'});
+            console.log('No portfolio found for this user');
+            return res.status(404).json({ message: 'No portfolio found for this user' });
         }
+        console.log('Portfolio data:', rows);
         res.json(rows);
     });
 });
-
-
 
 // Update
 // listens for a PUT request at '/users/:username'

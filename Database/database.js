@@ -4,7 +4,8 @@ const sqlite3 = require('../Server/node_modules/sqlite3/lib/sqlite3').verbose();
 const fs = require('fs'); 
 const path = require('path');
 
-const db = new sqlite3.Database('stock_trading.db');
+const dbPath = path.join(__dirname, '../demo.db');
+const db = new sqlite3.Database('demo.db');
 
 db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS Users (
