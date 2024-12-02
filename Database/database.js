@@ -1,6 +1,8 @@
 // Handles Sqlite database connection and setup
 // testing
-const sqlite3 = require('sqlite3').verbose();
+const sqlite3 = require('../Server/node_modules/sqlite3/lib/sqlite3').verbose();
+const fs = require('fs'); 
+const path = require('path');
 
 const db = new sqlite3.Database('stock_trading.db');
 
@@ -18,8 +20,10 @@ db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS Stocks (
         StockID INTEGER PRIMARY KEY AUTOINCREMENT,
         TickerSymbol TEXT NOT NULL UNIQUE,
-        CompanyName TEXT NOT NULL,
-        MarketPrice REAL NOT NULL,
+        openPrice REAL,
+        closePrice REAL,
+        Difference REAL,
+        Date DATE,
         LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )`);
 
@@ -66,5 +70,22 @@ db.serialize(() => {
        UPDATE Stocks SET LastUpdated = CURRENT_TIMESTAMP WHERE StockID = NEW.StockID;
     END`);
 });
+
+// Function to initialize data from JSON file
+const initializeData = () => {
+    const filePath = path.join(__dirname, 'processed-stonks.json');
+    const stockData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+
+    stockData.forEach(stock => {
+        db.run('INSERT OR REPLACE INTO Stocks (TickerSymbol, OpenPrice, ClosePrice, Difference, Date, LastUpdated) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)',
+            [stock.ticker, stock.openPrice, stock.closePrice, stock.difference, stock.Date], (err) => {
+                if (err) {
+                    console.error(err.message);
+                }
+            });
+    });
+};
+
+initializeData();
 
 module.exports = db;
