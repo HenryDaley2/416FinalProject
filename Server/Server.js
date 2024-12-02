@@ -11,7 +11,7 @@ app.use(express.static(path.join(__dirname, '../client')));
 
 // Serve the home page or portfolio page based on the routes
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client', 'login.html'));
+    res.sendFile(path.join(__dirname, '../client', 'FrontEnd.html'));
 });
 
 // Create
