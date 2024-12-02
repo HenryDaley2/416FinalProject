@@ -8,6 +8,13 @@ const dbPath = path.join(__dirname, '../demo.db');
 const db = new sqlite3.Database('demo.db');
 
 db.serialize(() => {
+    // Drop tables, for fresh startup
+    
+    db.run(`DROP TABLE IF EXISTS Users`); 
+    db.run(`DROP TABLE IF EXISTS Stocks`); 
+    db.run(`DROP TABLE IF EXISTS Portfolios`);
+
+
     db.run(`CREATE TABLE IF NOT EXISTS Users (
         UserID INTEGER PRIMARY KEY AUTOINCREMENT,
         Username TEXT NOT NULL UNIQUE,

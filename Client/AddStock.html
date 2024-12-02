@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Stock to Portfolio</title>
+    <link rel="stylesheet" href="portfolio.css">
+    <style>
+        .form-container {
+            margin: 20px 0;
+        }
+        .form-container input[type="number"], .form-container input[type="text"], .form-container select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-container button {
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Add Stock to Portfolio</h2>
+        <form id="addStockForm" onsubmit="return addStockToPortfolio(event)">
+            <label for="userID">User ID:</label>
+            <input type="number" id="userID" name="UserID" required>
+
+            <label for="stockID">Stock ID:</label>
+            <input type="number" id="stockID" name="StockID" required>
+
+            <label for="sharesOwned">Shares Owned:</label>
+            <input type="number" id="sharesOwned" name="SharesOwned" required>
+
+            <button type="submit">Add Stock</button>
+        </form>
+        <button onclick="window.location.href='/portfolio-page';">Back to Portfolio</button>
+    </div>
+
+    <script>
+        async function addStockToPortfolio(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+
+            // Create an object from the form data
+            const data = Object.fromEntries(formData.entries());
+            console.log('Form data:', data); // Debug log
+
+            try {
+                const response = await fetch('/portfolios', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log('Stock added to portfolio successfully:', result);
+                    window.location.href = '/portfolio-page'; // Redirect back to portfolio page
+                } else {
+                    console.error('Error adding stock to portfolio:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error);
+            }
+        }
+    </script>
+</body>
+</html>
