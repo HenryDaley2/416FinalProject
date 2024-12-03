@@ -67,9 +67,9 @@ app.post('/stocks', (req, res) => {
 
 // hanldes creating a portfolio entry that associates a user with a stock and the number of shares they own.
 app.post('/portfolios', (req, res) => {
-    const { UserID, StockID, SharesOwned } = req.body;
-    db.run(`INSERT INTO Portfolios (UserID, StockID, SharesOwned) VALUES (?, ?, ?)`,
-        [UserID, StockID, SharesOwned],
+    const { UserID, TickerSymbol, SharesOwned } = req.body;
+    db.run(`INSERT INTO Portfolios (UserID, TickerSymbol, SharesOwned) VALUES (?, ?, ?)`,
+        [UserID, TickerSymbol, SharesOwned],
         function (err) {
             if (err) {
                 return res.status(400).json({ error: err.message });

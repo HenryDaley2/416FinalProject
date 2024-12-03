@@ -27,21 +27,22 @@ db.serialize(() => {
 
     db.run(`CREATE TABLE IF NOT EXISTS Stocks (
         StockID INTEGER PRIMARY KEY AUTOINCREMENT,
-        TickerSymbol TEXT NOT NULL UNIQUE,
-        openPrice REAL,
-        closePrice REAL,
+        TickerSymbol TEXT NOT NULL,
+        OpenPrice REAL,
+        ClosePrice REAL,
         Difference TEXT,
-        Date DATE,
-        LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        Date TEXT,
+        LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE (TickerSymbol, Date)
     )`);
 
     db.run(`CREATE TABLE IF NOT EXISTS Portfolios (
         PortfolioID INTEGER PRIMARY KEY AUTOINCREMENT,
         UserID INTEGER NOT NULL,
-        StockID INTEGER NOT NULL,
+        TickerSymbol TEXT NOT NULL UNIQUE,
         SharesOwned INTEGER NOT NULL,
         FOREIGN KEY (UserID) REFERENCES Users(UserID),
-        FOREIGN KEY (StockID) REFERENCES Stocks(StockID)
+        FOREIGN KEY (TickerSymbol) REFERENCES Stocks(TickerSymbol)
     )`);
 
     db.run(`CREATE TABLE IF NOT EXISTS Transactions (

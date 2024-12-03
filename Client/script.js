@@ -11,19 +11,21 @@ async function displayPortfolio(userId) {
         // Fetch the stock data
         const stockData = {};
         for (const entry of portfolio) {
-            const stockResponse = await fetch(`/stock/${entry.StockID}`);
+            const stockResponse = await fetch(`/stock/${entry.TickerSymbol}`);
+            stockData[entry.StockID] = await stockResponse.json();
+            console.log('Fetched stock data for StockID:', entry.TickerSymbol, stockData[entry.TickerSymbol]); // Debug log
             if (!stockResponse.ok) {
                 throw new Error(`HTTP error! status: ${stockResponse.status}`);
             }
-            stockData[entry.StockID] = await stockResponse.json();
-            console.log('Fetched stock data for StockID:', entry.StockID, stockData[entry.StockID]); // Debug log
+            //stockData[entry.TickerSymbol] = await stockResponse.json();
+            //console.log('Fetched stock data for StockID:', entry.TickerSymbol, stockData[entry.TickerSymbol]); // Debug log
         }
 
         const portfolioTable = document.getElementById('portfolio');
         portfolioTable.innerHTML = ''; // Clear previous content
 
         portfolio.forEach(entry => {
-            const stock = stockData[entry.StockID];
+            const stock = stockData[entry.TickerSymbol];
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${stock.TickerSymbol}</td>
