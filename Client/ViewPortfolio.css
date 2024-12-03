@@ -14,37 +14,44 @@ h1 {
     margin-bottom: 20px;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-    background-color: #1e1e1e; /* Slightly lighter dark for contrast */
+.portfolio-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.stock-box {
+    background: linear-gradient(145deg, #1f2933, #374151); /* Gradient background */
     color: #ffffff;
-    border-radius: 5px;
-    overflow: hidden;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid #2c2c2c;
 }
 
-thead {
-    background-color: #333333; /* Darker header for contrast */
+.stock-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
+    border-color: #4caf50; /* Highlight border on hover */
 }
 
-th, td {
-    padding: 12px 15px;
-    text-align: left;
-    border: 1px solid #444444;
+.stock-box h3 {
+    font-size: 1.5rem;
+    color: #4caf50; /* Bright green for stock name */
+    margin-bottom: 10px;
+    text-transform: uppercase;
 }
 
-th {
-    background-color: #444444; /* Darker header background */
-    font-weight: bold;
+.stock-box p {
+    margin: 5px 0;
+    font-size: 1rem;
+    color: #d1d5db; /* Light gray for text */
 }
 
-tr:nth-child(even) {
-    background-color: #2a2a2a; /* Alternate row background */
-}
-
-tr:hover {
-    background-color: #3a3a3a; /* Highlight row on hover */
+.stock-box p:nth-child(odd) {
+    color: #9ca3af; /* Slightly darker gray for alternating text */
 }
 
 .form-container {

@@ -3,20 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stock Ticker</title>
-    <link rel="stylesheet" href="stock-view.css">
+    <title>User Portfolio</title>
+    <link rel="stylesheet" href="stonks.css">
 </head>
 <body>
-    <div class="ticker-container">
-        <div class="ticker">
-            <div id="stock-display" class="stock-card">
-                <h2 class="stock-name">Loading...</h2>
-                <p class="stock-symbol"></p>
-                <p class="stock-price"></p>
-                <p class="stock-change"></p>
-            </div>
+    <h1>Stock Portfolio</h1>
+    <div class="portfolio-container">
+        <!-- Example Stock Data -->
+        <div class="stock-box">
+            <h3>Apple Inc. (AAPL)</h3>
+            <p>Sector: Technology</p>
+            <p>Current Price: $150.00</p>
+            <p class="trend-up">Trending: Up</p>
+        </div>
+        <div class="stock-box">
+            <h3>Microsoft Corp. (MSFT)</h3>
+            <p>Sector: Technology</p>
+            <p>Current Price: $250.00</p>
+            <p class="trend-down">Trending: Down</p>
+        </div>
+        <div class="stock-box">
+            <h3>Amazon.com Inc. (AMZN)</h3>
+            <p>Sector: Consumer Discretionary</p>
+            <p>Current Price: $3,200.00</p>
+            <p class="trend-up">Trending: Up</p>
+        </div>
+        <div class="stock-box">
+            <h3>Alphabet Inc. (GOOGL)</h3>
+            <p>Sector: Communication Services</p>
+            <p>Current Price: $2,800.00</p>
+            <p class="trend-down">Trending: Down</p>
+        </div>
+        <div class="stock-box">
+            <h3>Meta Platforms Inc. (META)</h3>
+            <p>Sector: Communication Services</p>
+            <p>Current Price: $350.00</p>
+            <p class="trend-up">Trending: Up</p>
+        </div>
+        <div class="stock-box">
+            <h3>Tesla Inc. (TSLA)</h3>
+            <p>Sector: Consumer Discretionary</p>
+            <p>Current Price: $700.00</p>
+            <p class="trend-down">Trending: Down</p>
+        </div>
+        <div class="stock-box">
+            <h3>Procter & Gamble (PG)</h3>
+            <p>Sector: Consumer Staples</p>
+            <p>Current Price: $140.00</p>
+            <p class="trend-up">Trending: Up</p>
+        </div>
+        <div class="stock-box">
+            <h3>Exxon Mobil Corp. (XOM)</h3>
+            <p>Sector: Energy</p>
+            <p>Current Price: $60.00</p>
+            <p class="trend-up">Trending: Up</p>
+        </div>
+        <div class="stock-box">
+            <h3>NVIDIA Corp. (NVDA)</h3>
+            <p>Sector: Technology</p>
+            <p>Current Price: $200.00</p>
+            <p class="trend-down">Trending: Down</p>
+        </div>
+        <div class="stock-box">
+            <h3>Johnson & Johnson (JNJ)</h3>
+            <p>Sector: Healthcare</p>
+            <p>Current Price: $160.00</p>
+            <p class="trend-down">Trending: Down</p>
         </div>
     </div>
-    <script src="stock-view.js"></script>
+
+    <div class="form-container">
+        <button onclick="window.location.href='addStock.html';">Add Stock to Portfolio</button>
+        <button onclick="window.location.href='stonks.html';">View All Stocks</button>
+    </div>
 </body>
 </html>
