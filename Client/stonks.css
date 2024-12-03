@@ -28,6 +28,11 @@ h1 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     border: 2px solid #2c2c2c;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .stock-box:hover {
@@ -94,7 +99,7 @@ button:active {
 }
 
 button:last-of-type {
-    background-color: #444444; /* Neutral gray for secondary action */
+    background-color: #000000; /* Neutral gray for secondary action */
 }
 
 button:last-of-type:hover {

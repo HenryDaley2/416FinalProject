@@ -57,31 +57,40 @@
     <script>
         // Example data for demonstration; replace with dynamic data as needed
         const stocks = [
-            {
-                ticker: "AAPL",
-                shares: 50,
-                openPrice: 150.5,
-                closePrice: 155.2,
-                difference: 4.7,
-                date: "2024-12-01"
-            },
-            {
-                ticker: "GOOGL",
-                shares: 10,
-                Boughtat: 2800.0,
-                currentprice: 2900.5,
-                difference: 100.5,
-                date: "2024-12-01"
-            },
-            {
-                ticker: "TSLA",
-                shares: 20,
-                openPrice: 750.0,
-                closePrice: 770.0,
-                difference: 20.0,
-                date: "2024-12-01"
-            }
-        ];
+    {
+        ticker: "AAPL",
+        shares: 50,
+        openPrice: 150.5,
+        closePrice: 155.2,
+        difference: 4.7,
+        date: "2024-12-01"
+    },
+    {
+        ticker: "GOOGL",
+        shares: 10,
+        openPrice: 2800.0, // Changed from Boughtat to openPrice
+        closePrice: 2900.5, // Changed from currentprice to closePrice
+        difference: 100.5,
+        date: "2024-12-01"
+    },
+    {
+        ticker: "TSLA",
+        shares: 20,
+        openPrice: 750.0,
+        closePrice: 770.0,
+        difference: 20.0,
+        date: "2024-12-01"
+    },
+    {
+        ticker: "NFLX",
+        shares: 19,
+        openPrice: 894.57,
+        closePrice: 892.40,
+        difference: 2.17,
+        date: "2024-12-01"        
+    }
+
+];
 
         const portfolioContainer = document.getElementById("portfolio");
 
