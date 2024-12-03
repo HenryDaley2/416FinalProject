@@ -13,7 +13,8 @@ db.serialize(() => {
     db.run(`DROP TABLE IF EXISTS Users`); 
     db.run(`DROP TABLE IF EXISTS Stocks`); 
     db.run(`DROP TABLE IF EXISTS Portfolios`);
-    
+    db.run(`DROP TABLE IF EXISTS Transactions`); 
+    db.run(`DROP TABLE IF EXISTS AdminActions`);
 
     db.run(`CREATE TABLE IF NOT EXISTS Users (
         UserID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -78,8 +79,46 @@ db.serialize(() => {
     BEGIN
        UPDATE Stocks SET LastUpdated = CURRENT_TIMESTAMP WHERE StockID = NEW.StockID;
     END`);
-});
 
+    // Hardcoded data for the demo in the database
+    db.run(`INSERT INTO Users (Username, PasswordHash, Email, Role) VALUES ('john_doe', 'password123', 'john@emaill.com', 'customer')`);
+
+    db.run(`INSERT INTO Stocks (TickerSymbol, OpenPrice, ClosePrice, Difference, Date) VALUES
+        ('AAPL', 150.00, 155.00, '5.00', '2024-12-01'),
+        ('MSFT', 300.00, 305.00, '5.00', '2024-12-01'),
+        ('GOOGL', 2700.00, 2750.00, '50.00', '2024-12-01'),
+        ('AMZN', 3400.00, 3450.00, '50.00', '2024-12-01'),
+        ('TSLA', 700.00, 720.00, '20.00', '2024-12-01'),
+        ('NFLX', 600.00, 610.00, '10.00', '2024-12-01'),
+        ('FB', 370.00, 375.00, '5.00', '2024-12-01'),
+        ('NVDA', 200.00, 205.00, '5.00', '2024-12-01'),
+        ('BABA', 250.00, 260.00, '10.00', '2024-12-01'),
+        ('INTC', 50.00, 52.00, '2.00', '2024-12-01'),
+        ('AMD', 100.00, 105.00, '5.00', '2024-12-01'),
+        ('ORCL', 90.00, 95.00, '5.00', '2024-12-01'),
+        ('IBM', 140.00, 142.00, '2.00', '2024-12-01'),
+        ('CSCO', 55.00, 57.00, '2.00', '2024-12-01'),
+        ('SAP', 140.00, 145.00, '5.00', '2024-12-01'),
+        ('ADBE', 500.00, 510.00, '10.00', '2024-12-01'),
+        ('CRM', 220.00, 225.00, '5.00', '2024-12-01'),
+        ('TWTR', 60.00, 65.00, '5.00', '2024-12-01'),
+        ('SNAP', 80.00, 82.00, '2.00', '2024-12-01'),
+        ('UBER', 50.00, 52.00, '2.00', '2024-12-01'),
+        ('LYFT', 40.00, 42.00, '2.00', '2024-12-01'),
+        ('SPOT', 300.00, 310.00, '10.00', '2024-12-01'),
+        ('SQ', 200.00, 205.00, '5.00', '2024-12-01'),
+        ('PYPL', 250.00, 255.00, '5.00', '2024-12-01'),
+        ('SHOP', 1400.00, 1450.00, '50.00', '2024-12-01'
+    )`);
+
+    db.run(`INSERT INTO Portfolios (UserID, TickerSymbol, SharesOwned) VALUES
+        (1, 'AAPL', 10),
+        (1, 'MSFT', 20),
+        (1, 'GOOGL', 5
+    )`);
+
+});
+/*
 // Function to initialize data from JSON file
 async function initializeData() {
     const filePath = path.join(__dirname, 'processed-stonks.json');
@@ -97,5 +136,5 @@ async function initializeData() {
 };
 
 initializeData();
-
+*/
 module.exports = db;

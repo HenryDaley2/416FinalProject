@@ -12,28 +12,26 @@ async function displayPortfolio(userId) {
         const stockData = {};
         for (const entry of portfolio) {
             const stockResponse = await fetch(`/stock/${entry.TickerSymbol}`);
-            stockData[entry.StockID] = await stockResponse.json();
-            console.log('Fetched stock data for StockID:', entry.TickerSymbol, stockData[entry.TickerSymbol]); // Debug log
             if (!stockResponse.ok) {
                 throw new Error(`HTTP error! status: ${stockResponse.status}`);
             }
-            //stockData[entry.TickerSymbol] = await stockResponse.json();
-            //console.log('Fetched stock data for StockID:', entry.TickerSymbol, stockData[entry.TickerSymbol]); // Debug log
+            stockData[entry.TickerSymbol] = await stockResponse.json();
+            console.log('Fetched stock data for StockID:', entry.TickerSymbol, stockData[entry.TickerSymbol]); // Debug log
         }
 
         const portfolioTable = document.getElementById('portfolio');
         portfolioTable.innerHTML = ''; // Clear previous content
 
         portfolio.forEach(entry => {
-            const stock = stockData[entry.TickerSymbol];
+            //const stock = stockData[entry.TickerSymbol];
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${stock.TickerSymbol}</td>
+                <td>${entry.TickerSymbol}</td>
                 <td>${entry.SharesOwned}</td>
-                <td>$${stock.openPrice.toFixed(2)}</td>
-                <td>$${stock.closePrice.toFixed(2)}</td>
-                <td>${stock.Difference}</td>
-                <td>${stock.Date}</td>
+                <td>$${entry.openPrice.toFixed(2)}</td>
+                <td>$${entry.closePrice.toFixed(2)}</td>
+                <td>${entry.Difference}</td>
+                <td>${entry.Date}</td>
             `;
             portfolioTable.appendChild(row);
         });

@@ -159,13 +159,12 @@ app.get('/portfolio/:user_id', (req, res) => {
         return res.status(400).json({ error: 'User ID is required' });
     }
     db.all(
-        `SELECT * FROM Portfolios WHERE UserID = ?`
-        /*
-          `SELECT p.PortfolioID, s.TickerSymbol, p.SharesOwned, s.openPrice, s.closePrice, s.Difference, s.Date
-            FROM Portfolios p
-            JOIN Stocks s ON p.StockID = s.StockID
-            WHERE p.UserID = ?`
-            */, [user_id], (err, rows) => {
+        //`SELECT * FROM Portfolios WHERE UserID = ?`
+        `SELECT p.PortfolioID, p.UserID, p.TickerSymbol, p.SharesOwned,
+        s.openPrice, s.closePrice, s.Difference, s.Date
+        FROM Portfolios p
+        JOIN Stocks s ON p.TickerSymbol = s.TickerSymbol
+        WHERE p.UserID = ?`, [user_id], (err, rows) => {
         if (err) {
             console.error('Database error:', err.message);
             return res.status(400).json({ error: err.message });
