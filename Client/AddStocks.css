@@ -1,0 +1,91 @@
+/* AddStocks.css */
+
+body {
+    background-color: #121212; /* Dark background */
+    color: #ffffff; /* High-contrast white text */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.form-container {
+    background-color: #1e1e1e; /* Slightly lighter dark for contrast */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+    width: 100%;
+}
+
+.form-container h2 {
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-container label {
+    font-size: 1rem;
+    color: #cccccc; /* Slightly muted for contrast */
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-container input[type="number"],
+.form-container input[type="text"],
+.form-container select {
+    background-color: #2a2a2a; /* Input background */
+    color: #ffffff; /* Input text color */
+    border: 1px solid #444444;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-container input:focus {
+    outline: none;
+    border-color: #007bff; /* Focus border color */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.form-container button {
+    background-color: #007bff; /* Modern blue button */
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-container button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.form-container button:active {
+    background-color: #003f7f; /* Even darker blue on active */
+}
+
+button {
+    margin-top: 10px;
+}
+
+button:last-of-type {
+    background-color: #444444; /* Neutral gray for secondary action */
+}
+
+button:last-of-type:hover {
+    background-color: #555555; /* Slightly lighter gray on hover */
+}
+
+button:last-of-type:active {
+    background-color: #666666; /* Even lighter gray on active */
+}
