@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Portfolio</title>
-    <link rel="stylesheet" href="ViewPortfolio.css">
+    <link rel="stylesheet" href="AddStock.css">
     <style>
         table {
             width: 100%;
@@ -45,26 +45,61 @@
 </head>
 <body>
     <h1>User Portfolio</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Ticker Symbol</th>
-                <th>Shares Owned</th>
-                <th>Open Price</th>
-                <th>Close Price</th>
-                <th>Difference</th>
-                <th>Date</th>
-            </tr>
-        </thead>
-        <tbody id="portfolio">
-        </tbody>
-    </table>
+    <div class="portfolio-container" id="portfolio">
+        <!-- Stock boxes will be dynamically inserted here -->
+    </div>
 
     <div class="form-container">
         <button onclick="window.location.href='addStock.html';">Add Stock to Portfolio</button>
         <button onclick="window.location.href='stonks.html';">View All Stocks</button>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // Example data for demonstration; replace with dynamic data as needed
+        const stocks = [
+            {
+                ticker: "AAPL",
+                shares: 50,
+                openPrice: 150.5,
+                closePrice: 155.2,
+                difference: 4.7,
+                date: "2024-12-01"
+            },
+            {
+                ticker: "GOOGL",
+                shares: 10,
+                Boughtat: 2800.0,
+                currentprice: 2900.5,
+                difference: 100.5,
+                date: "2024-12-01"
+            },
+            {
+                ticker: "TSLA",
+                shares: 20,
+                openPrice: 750.0,
+                closePrice: 770.0,
+                difference: 20.0,
+                date: "2024-12-01"
+            }
+        ];
+
+        const portfolioContainer = document.getElementById("portfolio");
+
+        stocks.forEach(stock => {
+            const stockBox = document.createElement("div");
+            stockBox.className = "stock-box";
+
+            stockBox.innerHTML = `
+                <h3>${stock.ticker}</h3>
+                <p>Shares Owned: ${stock.shares}</p>
+                <p>Open Price: $${stock.openPrice.toFixed(2)}</p>
+                <p>Close Price: $${stock.closePrice.toFixed(2)}</p>
+                <p>Difference: $${stock.difference.toFixed(2)}</p>
+                <p>Date: ${stock.date}</p>
+            `;
+
+            portfolioContainer.appendChild(stockBox);
+        });
+    </script>
 </body>
 </html>
