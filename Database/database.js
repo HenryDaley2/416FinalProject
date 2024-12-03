@@ -13,7 +13,7 @@ db.serialize(() => {
     db.run(`DROP TABLE IF EXISTS Users`); 
     db.run(`DROP TABLE IF EXISTS Stocks`); 
     db.run(`DROP TABLE IF EXISTS Portfolios`);
-
+    
 
     db.run(`CREATE TABLE IF NOT EXISTS Users (
         UserID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -30,7 +30,7 @@ db.serialize(() => {
         TickerSymbol TEXT NOT NULL UNIQUE,
         openPrice REAL,
         closePrice REAL,
-        Difference REAL,
+        Difference TEXT,
         Date DATE,
         LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )`);
@@ -80,13 +80,14 @@ db.serialize(() => {
 });
 
 // Function to initialize data from JSON file
-const initializeData = () => {
+async function initializeData() {
     const filePath = path.join(__dirname, 'processed-stonks.json');
-    const stockData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    const stockData = await JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
     stockData.forEach(stock => {
-        db.run('INSERT OR REPLACE INTO Stocks (TickerSymbol, OpenPrice, ClosePrice, Difference, Date, LastUpdated) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)',
-            [stock.ticker, stock.openPrice, stock.closePrice, stock.difference, stock.Date], (err) => {
+        const numericDifference = parseFloat(stock.difference);
+        db.run('INSERT INTO Stocks (TickerSymbol, OpenPrice, ClosePrice, Difference, Date, LastUpdated) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)',
+            [stock.ticker, stock.openPrice, stock.closePrice, numericDifference, stock.date], (err) => {
                 if (err) {
                     console.error(err.message);
                 }
