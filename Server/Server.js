@@ -104,6 +104,35 @@ app.post('/admin-actions', (req, res) => {
         });
 });
 
+// Login endpoint (with plaintext passwords for now)
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+  
+    db.get(`SELECT * FROM Users WHERE Username = ?`, [username], (err, row) => {
+      if (err) {
+        console.error('Database error:', err);
+        return res.status(500).send('Error logging in');
+      }
+      if (!row || row.PasswordHash !== password) {
+        console.log('Invalid login attempt');
+        return res.status(401).send('Invalid username or password');
+      }
+      console.log('Login successful');
+      // Display user information
+      res.json({
+        message: 'Login successful!',
+        user: {
+          id: row.UserID,
+          username: row.Username,
+          email: row.Email,
+          role: row.Role,
+          createdAt: row.CreatedAt,
+          updatedAt: row.UpdatedAt
+        }
+      });
+    });
+  });  
+
 // Read
 // retrieve user details from a database based on their username
 // defines a GET route for the URL path /users/:username
@@ -146,6 +175,19 @@ app.get('/stock/:stock_id', (req, res) => {
     });
 });
 
+// Endpoint to fetch stock data
+app.get('/stock/:ticker', (req, res) => {
+    const ticker = req.params.ticker;
+    
+    db.get(`SELECT * FROM Stocks WHERE TickerSymbol = ?`, [ticker], (err, row) => {
+        if (err) {
+            console.error('Database error:', err.message);
+            return res.status(500).send('Error fetching stock data');
+        }
+        res.json(row);
+    });
+});
+
 // Serve the portfolio page
 app.get('/portfolio-page', (req, res) => {
     res.sendFile(path.join(__dirname, '../Client', 'ViewPortfolio.html'));
@@ -159,12 +201,12 @@ app.get('/portfolio/:user_id', (req, res) => {
         return res.status(400).json({ error: 'User ID is required' });
     }
     db.all(
-        //`SELECT * FROM Portfolios WHERE UserID = ?`
         `SELECT p.PortfolioID, p.UserID, p.TickerSymbol, p.SharesOwned,
         s.openPrice, s.closePrice, s.Difference, s.Date
         FROM Portfolios p
         JOIN Stocks s ON p.TickerSymbol = s.TickerSymbol
-        WHERE p.UserID = ?`, [user_id], (err, rows) => {
+        WHERE p.UserID = ?
+        `, [user_id], (err, rows) => {
         if (err) {
             console.error('Database error:', err.message);
             return res.status(400).json({ error: err.message });

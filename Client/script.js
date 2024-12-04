@@ -1,3 +1,6 @@
+// DOES NOT WORK PLEASE FIX
+// the /portfolio/${userId} works and pulls all nescessary data,
+// can see the data in the terminal.
 async function displayPortfolio(userId) {
     try {
         // Fetch the portfolio data
@@ -7,33 +10,22 @@ async function displayPortfolio(userId) {
         }
         const portfolio = await portfolioResponse.json();
         console.log('Portfolio data:', portfolio); // Log fetched portfolio data
+       
+        const portfolioTable = document.getElementById("portfolio");
+        //portfolioTable.innerHTML = ''; // Clear previous content
 
-        // Fetch the stock data
-        const stockData = {};
-        for (const entry of portfolio) {
-            const stockResponse = await fetch(`/stock/${entry.TickerSymbol}`);
-            if (!stockResponse.ok) {
-                throw new Error(`HTTP error! status: ${stockResponse.status}`);
-            }
-            stockData[entry.TickerSymbol] = await stockResponse.json();
-            console.log('Fetched stock data for StockID:', entry.TickerSymbol, stockData[entry.TickerSymbol]); // Debug log
-        }
-
-        const portfolioTable = document.getElementById('portfolio');
-        portfolioTable.innerHTML = ''; // Clear previous content
-
-        portfolio.forEach(entry => {
-            //const stock = stockData[entry.TickerSymbol];
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${entry.TickerSymbol}</td>
-                <td>${entry.SharesOwned}</td>
-                <td>$${entry.openPrice.toFixed(2)}</td>
-                <td>$${entry.closePrice.toFixed(2)}</td>
-                <td>${entry.Difference}</td>
-                <td>${entry.Date}</td>
+        stocks.forEach(stock => {
+            const stockBox = document.createElement("div");
+            stockBox.className = "stock-box";
+            stockBox.innerHTML = `
+                <h3>${stock.TickerSymbol}</h3>
+                <p>Shares Owned: ${stock.SharesOwned}</p>
+                <p>Open Price: $${stock.OpenPrice.toFixed(2)}</p>
+                <p>Close Price: $${stock.ClosePrice.toFixed(2)}</p>
+                <p>Difference: ${stock.Difference}</p>
+                <p>Date: ${stock.Date}</p>
             `;
-            portfolioTable.appendChild(row);
+            portfolioTable.appendChild(stockBox);
         });
     } catch (error) {
         console.error('Error fetching portfolio:', error);
@@ -41,8 +33,12 @@ async function displayPortfolio(userId) {
 }
 
 // Call this function with the logged-in user's ID
-displayPortfolio(1); // Replace with the actual UserID
-
+// displayPortfolio(1); // Replace with the actual UserID
+const urlParams = new URLSearchParams(window.location.search);
+const userID = urlParams.get('userId');
+if (userId) {
+    displayPortfolio(userId);
+}
 
 // add stock to portfolio
 async function addStockToPortfolio(event) {
@@ -101,6 +97,41 @@ async function submitCreateAccountForm(event) {
             window.location.href = 'login.html'; // Redirect to login page
         } else {
             console.error('Error creating account:', response.statusText);
+            // Handle error response
+        }
+    } catch (error) {
+        console.error('Error submitting form:', error);
+        // Handle network or other errors
+    }
+}
+
+async function submitLoginForm(event) {
+    event.preventDefault(); // Prevent default form submission
+    const form = event.target;
+    const formData = new FormData(form);
+
+    // Create an object from the form data
+    const data = Object.fromEntries(formData.entries());
+    console.log('Login form data:', data); // Debug log
+
+    try {
+        const response = await fetch(form.action, {
+            method: form.method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log('Login successful:', result);
+            // Display user information
+            alert(`Login successful! Welcome, ${result.user.username}.`);
+            // Handle successful login, e.g., redirect to main page
+            window.location.href = 'ViewPortfolio.html'; // Uncomment to redirect after login
+        } else {
+            console.error('Error logging in:', response.statusText);
             // Handle error response
         }
     } catch (error) {
