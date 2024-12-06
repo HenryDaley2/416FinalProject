@@ -31,7 +31,7 @@ db.serialize(() => {
         TickerSymbol TEXT NOT NULL,
         OpenPrice REAL,
         ClosePrice REAL,
-        Difference TEXT,
+        Difference REAL,
         Date TEXT,
         LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         UNIQUE (TickerSymbol, Date)

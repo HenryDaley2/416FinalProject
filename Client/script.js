@@ -1,20 +1,26 @@
 // DOES NOT WORK PLEASE FIX
 // the /portfolio/${userId} works and pulls all nescessary data,
 // can see the data in the terminal.
-async function displayPortfolio(userId) {
+async function displayPortfolio(UserID) {
     try {
         // Fetch the portfolio data
-        const portfolioResponse = await fetch(`/portfolio/${userId}`);
+        const portfolioResponse = await fetch(`/portfolio/${UserID}`);
         if (!portfolioResponse.ok) {
             throw new Error(`HTTP error! status: ${portfolioResponse.status}`);
         }
         const portfolio = await portfolioResponse.json();
         console.log('Portfolio data:', portfolio); // Log fetched portfolio data
-       
-        const portfolioTable = document.getElementById("portfolio");
-        //portfolioTable.innerHTML = ''; // Clear previous content
 
-        stocks.forEach(stock => {
+        const portfolioTable = document.getElementById("portfolio");
+        if (!portfolioTable) {
+            console.error("Portfolio table element not found in the DOM.");
+            return;
+        }
+
+        // Clear previous content
+        portfolioTable.innerHTML = ''; 
+
+        portfolio.forEach(stock => {
             const stockBox = document.createElement("div");
             stockBox.className = "stock-box";
             stockBox.innerHTML = `
@@ -22,7 +28,7 @@ async function displayPortfolio(userId) {
                 <p>Shares Owned: ${stock.SharesOwned}</p>
                 <p>Open Price: $${stock.OpenPrice.toFixed(2)}</p>
                 <p>Close Price: $${stock.ClosePrice.toFixed(2)}</p>
-                <p>Difference: ${stock.Difference}</p>
+                <p>Difference: $${stock.Difference.toFixed(2)}</p>
                 <p>Date: ${stock.Date}</p>
             `;
             portfolioTable.appendChild(stockBox);
@@ -32,13 +38,21 @@ async function displayPortfolio(userId) {
     }
 }
 
-// Call this function with the logged-in user's ID
-// displayPortfolio(1); // Replace with the actual UserID
+// Get the UserID from the URL query string
 const urlParams = new URLSearchParams(window.location.search);
-const userID = urlParams.get('userId');
-if (userId) {
-    displayPortfolio(userId);
+
+let UserID = urlParams.get('UserID'); // Try to get UserID from the URL
+if (!UserID) {
+    UserID = localStorage.getItem('UserID'); // Fall back to localStorage if not in URL
 }
+
+if (UserID) {
+    displayPortfolio(UserID); // Call the function to display the portfolio
+} else {
+    console.error("UserID not found in URL or localStorage."); // Handle missing UserID
+}
+
+
 
 // add stock to portfolio
 async function addStockToPortfolio(event) {
@@ -126,16 +140,18 @@ async function submitLoginForm(event) {
         if (response.ok) {
             const result = await response.json();
             console.log('Login successful:', result);
-            // Display user information
-            alert(`Login successful! Welcome, ${result.user.username}.`);
-            // Handle successful login, e.g., redirect to main page
-            window.location.href = 'ViewPortfolio.html'; // Uncomment to redirect after login
+
+            // Store UserID in localStorage
+            localStorage.setItem('UserID', result.user.id);
+
+            // Redirect to portfolio page
+            window.location.href = 'ViewPortfolio.html';
         } else {
             console.error('Error logging in:', response.statusText);
-            // Handle error response
+            alert('Login failed: ' + response.statusText); // Provide user feedback
         }
     } catch (error) {
-        console.error('Error submitting form:', error);
-        // Handle network or other errors
+        console.error('Error submitting login form:', error);
+        alert('An error occurred. Please try again.');
     }
 }
