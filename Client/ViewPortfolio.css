@@ -96,3 +96,54 @@ button:last-of-type:hover {
 button:last-of-type:active {
     background-color: #666666; /* Even lighter gray on active */
 }
+
+.account-actions {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.account-actions:hover {
+    background-color: #0056b3;
+}
+
+.dropdown {
+    position: relative;
+    /*display: inline-block;*/
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: #1e1e1e;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    padding: 8px 10px;
+    font-size: 0.9rem;
+}
+
+.dropdown-content a:hover {
+    background-color: #444444;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}

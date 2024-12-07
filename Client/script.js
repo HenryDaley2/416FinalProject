@@ -52,7 +52,48 @@ if (UserID) {
     console.error("UserID not found in URL or localStorage."); // Handle missing UserID
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    // Get the logged-in user's ID from localStorage
+    const userID = localStorage.getItem('UserID');
+    const userIDField = document.getElementById('userID');
+    const adminActionsButton = document.getElementById('admin-actions');
+    const userRole = localStorage.getItem('UserRole'); // Assuming role is stored during login
 
+    if (window.location.pathname === '/Login.html' || window.location.pathname.endsWith('Login.html')) {
+        console.log('Login page: No UserID check required.');
+        return; // Exit early on the login page
+    }
+
+    if (window.location.pathname === '/CreateAccount.html' || window.location.pathname.endsWith('CreateAccount.html')) {
+        console.log('Create Account page: No UserID check required.');
+        return; // Exit early on the login page
+    }
+    
+    if (userIDField && userID) {
+        userIDField.value = userID;
+    } else if (!userID) {
+        console.error('UserID not found in localStorage.');
+        alert('Please log in to access this page.');
+        window.location.href = 'Login.html'; // Redirect if not logged in
+    } else {
+        console.error('UserID input field not found in the DOM.');
+    }
+
+    if (userID) {
+        document.getElementById('userID').value = userID; // Set the hidden field value
+    } else {
+        console.error('UserID not found in localStorage. Redirecting to login.');
+        alert('Please log in to access this page.');
+        window.location.href = 'Login.html'; // Redirect to login if not logged in
+    }
+
+    if (userRole && adminActionsButton === 'admin') {
+        //document.getElementById('admin-actions').style.display = 'block';
+        adminActionsButton.style.display = 'block';
+    } else if (!adminActionsButton) {
+        console.error('Admin actions button not found in the DOM');
+    }
+});
 
 // add stock to portfolio
 async function addStockToPortfolio(event) {
@@ -143,7 +184,7 @@ async function submitLoginForm(event) {
 
             // Store UserID in localStorage
             localStorage.setItem('UserID', result.user.id);
-
+            localStorage.setItem('UserRole', result.user.role);
             // Redirect to portfolio page
             window.location.href = 'ViewPortfolio.html';
         } else {
@@ -154,4 +195,15 @@ async function submitLoginForm(event) {
         console.error('Error submitting login form:', error);
         alert('An error occurred. Please try again.');
     }
+}
+
+function logout() {
+    localStorage.clear(); // Clear localStorage to log out the user
+    alert('You have been signed out.');
+    window.location.href='Login.html'; // Redirect to login page
+}
+
+function performAdminActions() {
+    alert('Redirecting to admin actions page (future functionality).');
+    // Future: Redirect to admin actions page or load admin functionalities
 }

@@ -44,6 +44,14 @@
     </style>
 </head>
 <body>
+    <div class="dropdown">
+        <button type="button" class="account-actions">Account</button>
+        <div class="dropdown-content">
+            <a href="#" onclick="logout()">Sign Out</a>
+            <a href="#" id="admin-actions" style="display: none;" onclick="performAdminActions()">Admin Actions</a>
+        </div>
+    </div>
+
     <h1>User Portfolio</h1>
     <div class="portfolio-container" id="portfolio">
         <!-- Stock boxes will be dynamically inserted here -->
@@ -54,63 +62,7 @@
         <button onclick="window.location.href='stonks.html';">View All Stocks</button>
     </div>
 
-    <script src="script.js">
-    /*
-        // Example data for demonstration; replace with dynamic data as needed
-        const stocks = [
-    {
-        ticker: "AAPL",
-        shares: 50,
-        openPrice: 150.5,
-        closePrice: 155.2,
-        difference: 4.7,
-        date: "2024-12-01"
-    },
-    {
-        ticker: "GOOGL",
-        shares: 10,
-        openPrice: 2800.0, // Changed from Boughtat to openPrice
-        closePrice: 2900.5, // Changed from currentprice to closePrice
-        difference: 100.5,
-        date: "2024-12-01"
-    },
-    {
-        ticker: "TSLA",
-        shares: 20,
-        openPrice: 750.0,
-        closePrice: 770.0,
-        difference: 20.0,
-        date: "2024-12-01"
-    },
-    {
-        ticker: "NFLX",
-        shares: 19,
-        openPrice: 894.57,
-        closePrice: 892.40,
-        difference: 2.17,
-        date: "2024-12-01"        
-    }
-
-];
-
-        const portfolioContainer = document.getElementById("portfolio");
-
-        stocks.forEach(stock => {
-            const stockBox = document.createElement("div");
-            stockBox.className = "stock-box";
-
-            stockBox.innerHTML = `
-                <h3>${stock.ticker}</h3>
-                <p>Shares Owned: ${stock.shares}</p>
-                <p>Open Price: $${stock.openPrice.toFixed(2)}</p>
-                <p>Close Price: $${stock.closePrice.toFixed(2)}</p>
-                <p>Difference: $${stock.difference.toFixed(2)}</p>
-                <p>Date: ${stock.date}</p>
-            `;
-
-            portfolioContainer.appendChild(stockBox);
-        });
-    */
+    <script src="script.js" defer>
     </script>
 </body>
 </html>

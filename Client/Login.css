@@ -18,33 +18,55 @@ body {
 /* Centered Login Container */
 .login-container {
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 80%;
+    margin: auto;
+    background: #1a1a1a;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
 }
 
 /* Login Box */
 .login-box {
     background: #1c1c1c; /* Dark grey box */
-    padding: 40px;
-    border-radius: 10px;
+    padding: 50px;
+    border-radius: 15px;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
-    width: 300px;
-    margin: 20px auto;
+    width: 50%;
+    margin: 30px auto;
+    text-align: center;
 }
 
 .login-box h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
+    font-size: 3rem;
+    margin-bottom: 30px;
+}
+
+.login-box form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+}
+
+.login-box p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
 }
 
 /* Input Fields */
 .login-box input {
     width: 100%;
-    padding: 10px;
+    padding: 15px;
     margin: 10px 0;
     background: #2c2c2c; /* Slightly lighter than the box */
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     color: #fff;
-    font-size: 1rem;
+    font-size: 1.2rem;
 }
 
 .login-box input::placeholder {
@@ -52,44 +74,56 @@ body {
 }
 
 .login-box input:focus {
-    outline: 2px solid #4caf50; /* Green focus outline */
+    outline: 3px solid #4caf50; /* Green focus outline */
 }
 
 /* Login Button */
 .login-box button {
     width: 100%;
-    padding: 10px;
+    padding: 15px;
     background: #4caf50; /* Green button */
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     color: #fff;
-    font-size: 1rem;
+    font-size: 1.5rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .login-box button:hover {
     background: #45a049; /* Slightly darker green */
+    transform: scale(1.05);
 }
 
 /* View Stonks Button */
 .view-stonks-button {
     margin-top: 20px;
-    margin-bottom: 5px;
-    padding: 10px 20px;
+    margin-right: 30px;
+    padding: 15px;
     background: #007bff; /* Blue button */
-    border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     color: #fff;
-    font-size: 1rem;
+    font-size: 1.2rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .view-stonks-button:hover {
     background: #0056b3; /* Slightly darker blue */
+    transform: scale (1.05);
 }
 
 .create-account-button {
     margin-top: 20px;
+    padding: 15px;
+    font-size: 1.2rem;
+    background: #007bff;
+    border-radius: 10px;
+    color: #fff;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.create-account-button:hover {
+    background: #0056b3;
+    transform: scale(1.05);
 }
