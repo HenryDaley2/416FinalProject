@@ -56,8 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Get the logged-in user's ID from localStorage
     const userID = localStorage.getItem('UserID');
     const userIDField = document.getElementById('userID');
-    const adminActionsButton = document.getElementById('admin-actions');
-    const userRole = localStorage.getItem('UserRole'); // Assuming role is stored during login
 
     if (window.location.pathname === '/Login.html' || window.location.pathname.endsWith('Login.html')) {
         console.log('Login page: No UserID check required.');
@@ -86,14 +84,23 @@ document.addEventListener('DOMContentLoaded', () => {
         alert('Please log in to access this page.');
         window.location.href = 'Login.html'; // Redirect to login if not logged in
     }
+});
 
-    if (userRole && adminActionsButton === 'admin') {
-        //document.getElementById('admin-actions').style.display = 'block';
-        adminActionsButton.style.display = 'block';
-    } else if (!adminActionsButton) {
-        console.error('Admin actions button not found in the DOM');
+document.addEventListener('DOMContentLoaded', () => {
+    const userRole = localStorage.getItem('UserRole');
+    const adminActionsButton = document.getElementById('admin-actions');
+
+    if (adminActionsButton) {
+        if (userRole === 'admin') {
+            adminActionsButton.style.display = 'block'; // Show button for admins
+        } else {
+            console.log('User is not an admin.');
+        }
+    } else {
+        console.error('Admin actions button not found in the DOM.');
     }
 });
+
 
 // add stock to portfolio
 async function addStockToPortfolio(event) {
@@ -204,6 +211,54 @@ function logout() {
 }
 
 function performAdminActions() {
-    alert('Redirecting to admin actions page (future functionality).');
-    // Future: Redirect to admin actions page or load admin functionalities
+    window.location.href = 'AdminActions.html';
+}
+
+async function loadProfiles() {
+    try {
+        const response = await fetch('/admin/profiles');
+        if (!response.ok) throw new Error('Failed to fetch profiles');
+
+        const profiles = await response.json();
+        const container = document.getElementById('profiles-container');
+
+        container.innerHTML = ''; // Clear loading message
+
+        profiles.forEach(profile => {
+            const card = document.createElement('div');
+            card.className = 'profile-card';
+            card.innerHTML = `
+                <h3>${profile.Username}</h3>
+                <p>Email: ${profile.Email}</p>
+                <p>Role: ${profile.Role}</p>
+                <button onclick="viewProfile(${profile.UserID})">View Portfolio</button>
+                <button class="delete" onclick="deleteProfile(${profile.UserID})">Delete Profile</button>
+            `;
+            container.appendChild(card);
+        });
+    } catch (error) {
+        console.error('Error loading profiles:', error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', loadProfiles);
+
+function viewProfile(userId) {
+    window.location.href = `/ViewPortfolio.html?userId=${userId}`;
+}
+
+async function deleteProfile(userId) {
+    if (!confirm('Are you sure you want to delete this profile?')) return;
+
+    try {
+        const response = await fetch(`/admin/profiles/${userId}`, {
+            method: 'DELETE'
+        });
+        if (!response.ok) throw new Error('Failed to delete profile');
+
+        alert('Profile deleted successfully.');
+        loadProfiles(); // Refresh profiles
+    } catch (error) {
+        console.error('Error deleting profile:', error);
+    }
 }

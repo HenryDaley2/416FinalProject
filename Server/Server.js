@@ -64,7 +64,7 @@ app.post('/stocks', (req, res) => {
             res.json({ StockID: this.lastID });
         });
 });
-
+/*
 // hanldes creating a portfolio entry that associates a user with a stock and the number of shares they own.
 app.post('/portfolios', (req, res) => {
     const { UserID, TickerSymbol, SharesOwned } = req.body;
@@ -76,6 +76,44 @@ app.post('/portfolios', (req, res) => {
             }
             res.json({ PortfolioID: this.lastID });
         });
+});
+*/
+app.post('/portfolios', (req, res) => {
+    const { UserID, TickerSymbol, SharesOwned } = req.body;
+
+    // Query to fetch the stock with the highest StockID for the specified TickerSymbol
+    const query = `
+        SELECT * FROM Stocks 
+        WHERE TickerSymbol = ? 
+        ORDER BY StockID DESC 
+        LIMIT 1
+    `;
+
+    db.get(query, [TickerSymbol], (err, stock) => {
+        if (err) {
+            console.error('Error fetching stock:', err.message);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+
+        if (!stock) {
+            return res.status(404).json({ error: 'Stock not found' });
+        }
+
+        // Use the stock with the highest StockID to add to the portfolio
+        const insertQuery = `
+            INSERT INTO Portfolios (UserID, TickerSymbol, SharesOwned)
+            VALUES (?, ?, ?)
+            ON CONFLICT(TickerSymbol) DO UPDATE SET SharesOwned = SharesOwned + excluded.SharesOwned
+        `;
+
+        db.run(insertQuery, [UserID, TickerSymbol, SharesOwned], function (err) {
+            if (err) {
+                console.error('Error adding to portfolio:', err.message);
+                return res.status(500).json({ error: 'Internal server error' });
+            }
+            res.json({ message: 'Stock added to portfolio successfully', PortfolioID: this.lastID });
+        });
+    });
 });
 
 // log transactions involving a user and a stock: purchases, sales, or other operations
@@ -220,6 +258,30 @@ app.get('/portfolio/:user_id', (req, res) => {
     });
 });
 
+app.get('/admin/profiles', (req, res) => {
+    db.all('SELECT UserID, Username, Email, Role FROM Users', [], (err, rows) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json(rows);
+    });
+});
+
+app.get('/admin/profiles/:id/portfolio', (req, res) => {
+    const { id } = req.params;
+    db.all(
+        `SELECT p.PortfolioID, p.TickerSymbol, p.SharesOwned
+        FROM Portfolios p WHERE p.UserID = ?`,
+        [id],
+        (err, rows) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+            res.json(rows);
+        }
+    );
+});
+
 // Update
 // listens for a PUT request at '/users/:username'
 // designed to update information, in this case their email
@@ -252,6 +314,22 @@ app.put('/stocks/:ticker_symbol', (req, res) => {
         });
 });
 
+app.put('/admin/profiles/:id/portfolio/:portfolioId', (req, res) => {
+    const { id, portfolioId } = req.params;
+    const { SharesOwned } = req.body;
+
+    db.run(
+        'UPDATE Portfolios SET SharesOwned = ? WHERE PortfolioID = ? AND UserID = ?',
+        [SharesOwned, portfolioId, id],
+        function (err) {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+            res.json({ message: 'Stock ownership updated successfully' });
+        }
+    );
+});
+
 // Delete
 app.delete('/users/:username', (req, res) => {
     const { username } = req.params;
@@ -272,6 +350,17 @@ app.delete('/stocks/:ticker_symbol', (req, res) => {
         res.json({ message: 'Stock deleted successfully' });
     });
 });
+
+app.delete('/admin/profiles/:id', (req, res) => {
+    const { id } = req.params;
+    db.run('DELETE FROM Users WHERE UserID = ?', [id], function (err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json({ message: 'User deleted successfully' });
+    });
+});
+
 
 // Fetch Stock Data from API and Store in Database
 app.get('/fetch-stocks', async (req, res) => {

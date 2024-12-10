@@ -82,7 +82,8 @@ db.serialize(() => {
 
     // Hardcoded data for the demo in the database
     db.run(`INSERT INTO Users (Username, PasswordHash, Email, Role) VALUES ('john_doe', 'password123', 'john@emaill.com', 'customer')`);
-
+    db.run(`INSERT INTO Users (Username, PasswordHash, Email, Role) VALUES ('ethan_admin', 'password123', 'ethan@emaill.com', 'admin')`);
+    /*
     db.run(`INSERT INTO Stocks (TickerSymbol, OpenPrice, ClosePrice, Difference, Date) VALUES
         ('AAPL', 150.00, 155.00, '5.00', '2024-12-01'),
         ('MSFT', 300.00, 305.00, '5.00', '2024-12-01'),
@@ -110,15 +111,15 @@ db.serialize(() => {
         ('PYPL', 250.00, 255.00, '5.00', '2024-12-01'),
         ('SHOP', 1400.00, 1450.00, '50.00', '2024-12-01'
     )`);
-
+    
     db.run(`INSERT INTO Portfolios (UserID, TickerSymbol, SharesOwned) VALUES
         (1, 'AAPL', 10),
         (1, 'MSFT', 20),
         (1, 'GOOGL', 5
     )`);
-
+*/
 });
-/*
+
 // Function to initialize data from JSON file
 async function initializeData() {
     const filePath = path.join(__dirname, 'processed-stonks.json');
@@ -136,5 +137,5 @@ async function initializeData() {
 };
 
 initializeData();
-*/
+
 module.exports = db;
