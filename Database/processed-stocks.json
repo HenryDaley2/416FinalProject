@@ -1,0 +1,345 @@
+[
+  {
+    "ticker": "AAPL",
+    "date": "2023-01-09",
+    "openPrice": 130.465,
+    "closePrice": 130.15,
+    "difference": "-0.31"
+  },
+  {
+    "ticker": "NVDA",
+    "date": "2023-01-09",
+    "openPrice": 15.284,
+    "closePrice": 15.628,
+    "difference": "0.34"
+  },
+  {
+    "ticker": "MSFT",
+    "date": "2023-01-09",
+    "openPrice": 226.45,
+    "closePrice": 227.12,
+    "difference": "0.67"
+  },
+  {
+    "ticker": "AMZN",
+    "date": "2023-01-09",
+    "openPrice": 87.46,
+    "closePrice": 87.36,
+    "difference": "-0.10"
+  },
+  {
+    "ticker": "GOOGL",
+    "date": "2023-01-09",
+    "openPrice": 88.36,
+    "closePrice": 88.02,
+    "difference": "-0.34"
+  },
+  {
+    "ticker": "META",
+    "date": "2023-01-09",
+    "openPrice": 131.16,
+    "closePrice": 129.47,
+    "difference": "-1.69"
+  },
+  {
+    "ticker": "TSLA",
+    "date": "2023-01-09",
+    "openPrice": 118.96,
+    "closePrice": 119.77,
+    "difference": "0.81"
+  },
+  {
+    "ticker": "BRK.B",
+    "date": "2023-01-09",
+    "openPrice": 319.02,
+    "closePrice": 315.53,
+    "difference": "-3.49"
+  },
+  {
+    "ticker": "TSM",
+    "date": "2023-01-09",
+    "openPrice": 80.56,
+    "closePrice": 80.31,
+    "difference": "-0.25"
+  },
+  {
+    "ticker": "AVGO",
+    "date": "2023-01-09",
+    "openPrice": 59.23,
+    "closePrice": 57.689,
+    "difference": "-1.54"
+  },
+  {
+    "ticker": "LLY",
+    "date": "2023-01-09",
+    "openPrice": 364,
+    "closePrice": 349.83,
+    "difference": "-14.17"
+  },
+  {
+    "ticker": "WMT",
+    "date": "2023-01-09",
+    "openPrice": 48.7733,
+    "closePrice": 48.3167,
+    "difference": "-0.46"
+  },
+  {
+    "ticker": "JPM",
+    "date": "2023-01-09",
+    "openPrice": 138.6,
+    "closePrice": 137.37,
+    "difference": "-1.23"
+  },
+  {
+    "ticker": "V",
+    "date": "2023-01-09",
+    "openPrice": 219.07,
+    "closePrice": 218.6,
+    "difference": "-0.47"
+  },
+  {
+    "ticker": "ORCL",
+    "date": "2023-01-09",
+    "openPrice": 86.84,
+    "closePrice": 86.42,
+    "difference": "-0.42"
+  },
+  {
+    "ticker": "UNH",
+    "date": "2023-01-09",
+    "openPrice": 492.41,
+    "closePrice": 490.06,
+    "difference": "-2.35"
+  },
+  {
+    "ticker": "XOM",
+    "date": "2023-01-09",
+    "openPrice": 111.64,
+    "closePrice": 108.47,
+    "difference": "-3.17"
+  },
+  {
+    "ticker": "MA",
+    "date": "2023-01-09",
+    "openPrice": 371.63,
+    "closePrice": 370.97,
+    "difference": "-0.66"
+  },
+  {
+    "ticker": "NVO",
+    "date": "2023-01-09",
+    "openPrice": 69.37,
+    "closePrice": 68.615,
+    "difference": "-0.76"
+  },
+  {
+    "ticker": "COST",
+    "date": "2023-01-09",
+    "openPrice": 482.93,
+    "closePrice": 478.75,
+    "difference": "-4.18"
+  },
+  {
+    "ticker": "HD",
+    "date": "2023-01-09",
+    "openPrice": 320,
+    "closePrice": 317.81,
+    "difference": "-2.19"
+  },
+  {
+    "ticker": "PG",
+    "date": "2023-01-09",
+    "openPrice": 153.44,
+    "closePrice": 152.04,
+    "difference": "-1.40"
+  },
+  {
+    "ticker": "NFLX",
+    "date": "2023-01-09",
+    "openPrice": 316.83,
+    "closePrice": 315.17,
+    "difference": "-1.66"
+  },
+  {
+    "ticker": "JNJ",
+    "date": "2023-01-09",
+    "openPrice": 179.3,
+    "closePrice": 175.58,
+    "difference": "-3.72"
+  },
+  {
+    "ticker": "BAC",
+    "date": "2023-01-09",
+    "openPrice": 34.75,
+    "closePrice": 33.89,
+    "difference": "-0.86"
+  },
+  {
+    "ticker": "CRM",
+    "date": "2023-01-09",
+    "openPrice": 142.59,
+    "closePrice": 147.1,
+    "difference": "4.51"
+  },
+  {
+    "ticker": "ABBV",
+    "date": "2023-01-09",
+    "openPrice": 165.9,
+    "closePrice": 161.66,
+    "difference": "-4.24"
+  },
+  {
+    "ticker": "SAP",
+    "date": "2023-01-09",
+    "openPrice": 110.7,
+    "closePrice": 111.44,
+    "difference": "0.74"
+  },
+  {
+    "ticker": "TMUS",
+    "date": "2023-01-09",
+    "openPrice": 148.02,
+    "closePrice": 148.77,
+    "difference": "0.75"
+  },
+  {
+    "ticker": "CVX",
+    "date": "2023-01-09",
+    "openPrice": 178.26,
+    "closePrice": 175.18,
+    "difference": "-3.08"
+  },
+  {
+    "ticker": "ASML",
+    "date": "2023-01-09",
+    "openPrice": 613.99,
+    "closePrice": 621.33,
+    "difference": "7.34"
+  },
+  {
+    "ticker": "KO",
+    "date": "2023-01-09",
+    "openPrice": 63.3,
+    "closePrice": 62.61,
+    "difference": "-0.69"
+  },
+  {
+    "ticker": "MRK",
+    "date": "2023-01-09",
+    "openPrice": 114.88,
+    "closePrice": 110.38,
+    "difference": "-4.50"
+  },
+  {
+    "ticker": "WFC",
+    "date": "2023-01-09",
+    "openPrice": 43.12,
+    "closePrice": 42.39,
+    "difference": "-0.73"
+  },
+  {
+    "ticker": "ACN",
+    "date": "2023-01-09",
+    "openPrice": 271.92,
+    "closePrice": 273.75,
+    "difference": "1.83"
+  },
+  {
+    "ticker": "ADBE",
+    "date": "2023-01-09",
+    "openPrice": 338.9,
+    "closePrice": 341.98,
+    "difference": "3.08"
+  },
+  {
+    "ticker": "CSCO",
+    "date": "2023-01-09",
+    "openPrice": 48.255,
+    "closePrice": 48.58,
+    "difference": "0.32"
+  },
+  {
+    "ticker": "NOW",
+    "date": "2023-01-09",
+    "openPrice": 373.88,
+    "closePrice": 378.56,
+    "difference": "4.68"
+  },
+  {
+    "ticker": "TM",
+    "date": "2023-01-09",
+    "openPrice": 139.31,
+    "closePrice": 139.94,
+    "difference": "0.63"
+  },
+  {
+    "ticker": "BX",
+    "date": "2023-01-09",
+    "openPrice": 80.43,
+    "closePrice": 80.58,
+    "difference": "0.15"
+  },
+  {
+    "ticker": "AMD",
+    "date": "2023-01-09",
+    "openPrice": 66.22,
+    "closePrice": 67.24,
+    "difference": "1.02"
+  },
+  {
+    "ticker": "IBM",
+    "date": "2023-01-09",
+    "openPrice": 144.08,
+    "closePrice": 143.55,
+    "difference": "-0.53"
+  },
+  {
+    "ticker": "PEP",
+    "date": "2023-01-09",
+    "openPrice": 180.44,
+    "closePrice": 179.33,
+    "difference": "-1.11"
+  },
+  {
+    "ticker": "MCD",
+    "date": "2023-01-09",
+    "openPrice": 269.93,
+    "closePrice": 267.25,
+    "difference": "-2.68"
+  },
+  {
+    "ticker": "AXP",
+    "date": "2023-01-09",
+    "openPrice": 151.35,
+    "closePrice": 150.4,
+    "difference": "-0.95"
+  },
+  {
+    "ticker": "LIN",
+    "date": "2023-01-09",
+    "openPrice": 322.27,
+    "closePrice": 321.92,
+    "difference": "-0.35"
+  },
+  {
+    "ticker": "AZN",
+    "date": "2023-01-09",
+    "openPrice": 71.05,
+    "closePrice": 70.9,
+    "difference": "-0.15"
+  },
+  {
+    "ticker": "DIS",
+    "date": "2023-01-09",
+    "openPrice": 94.43,
+    "closePrice": 94.77,
+    "difference": "0.34"
+  },
+  {
+    "ticker": "MS",
+    "date": "2023-01-09",
+    "openPrice": 88.245,
+    "closePrice": 87.64,
+    "difference": "-0.61"
+  }
+]

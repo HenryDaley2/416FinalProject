@@ -111,30 +111,50 @@ db.serialize(() => {
         ('PYPL', 250.00, 255.00, '5.00', '2024-12-01'),
         ('SHOP', 1400.00, 1450.00, '50.00', '2024-12-01'
     )`);
-    
-    db.run(`INSERT INTO Portfolios (UserID, TickerSymbol, SharesOwned) VALUES
-        (1, 'AAPL', 10),
-        (1, 'MSFT', 20),
-        (1, 'GOOGL', 5
-    )`);
-*/
+*/   
+    db.run(`INSERT INTO Portfolios (UserID, TickerSymbol, SharesOwned) VALUES (1, 'AAPL', 10)`);
+    db.run(`INSERT INTO Portfolios (UserID, TickerSymbol, SharesOwned) VALUES (1, 'MSFT', 20)`);
 });
 
 // Function to initialize data from JSON file
 async function initializeData() {
-    const filePath = path.join(__dirname, 'processed-stonks.json');
+    const filePath = path.join(__dirname, 'processed-stocks.json');
     const stockData = await JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
     stockData.forEach(stock => {
         const numericDifference = parseFloat(stock.difference);
-        db.run('INSERT INTO Stocks (TickerSymbol, OpenPrice, ClosePrice, Difference, Date, LastUpdated) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)',
-            [stock.ticker, stock.openPrice, stock.closePrice, numericDifference, stock.date], (err) => {
+
+        // Check if the record already exists (TickerSymbol + Date) and insert if not
+        db.get(
+            `SELECT StockID FROM Stocks WHERE TickerSymbol = ? AND Date = ?`,
+            [stock.ticker, stock.date],
+            (err, row) => {
                 if (err) {
-                    console.error(err.message);
+                    console.error('Error checking for duplicate:', err.message);
+                    return;
                 }
-            });
+
+                if (!row) {
+                    // Insert new stock record if it doesn't already exist
+                    db.run(
+                        `INSERT INTO Stocks (TickerSymbol, OpenPrice, ClosePrice, Difference, Date, LastUpdated) 
+                        VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)`,
+                        [stock.ticker, stock.openPrice, stock.closePrice, numericDifference, stock.date],
+                        (insertErr) => {
+                            if (insertErr) {
+                                console.error('Error inserting stock:', insertErr.message);
+                            } else {
+                                console.log(`Inserted stock: ${stock.ticker} (${stock.date})`);
+                            }
+                        }
+                    );
+                } else {
+                    console.log(`Stock already exists: ${stock.ticker} (${stock.date})`);
+                }
+            }
+        );
     });
-};
+}
 
 initializeData();
 

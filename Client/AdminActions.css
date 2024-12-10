@@ -1,5 +1,5 @@
 body {
-    background-color: #121212; /* Dark theme */
+    background-color: #121212;
     color: white;
     font-family: Arial, sans-serif;
     padding: 20px;
@@ -20,8 +20,8 @@ h1 {
     background: #1e1e1e;
     border-radius: 10px;
     padding: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .profile-card button {
