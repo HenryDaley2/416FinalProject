@@ -165,6 +165,43 @@ function viewProfile(userId) {
     window.location.href = `/ViewPortfolio.html?userId=${userId}`;
 }
 
+async function loadStocks() {
+    try {
+        // Fetch stock data from the server
+        const response = await fetch('/stocks');
+        if (!response.ok) {
+            throw new Error(`Failed to fetch stocks: ${response.statusText}`);
+        }
+        const stocks = await response.json();
+
+        const stocksContainer = document.getElementById('stocks-container');
+        stocksContainer.innerHTML = ''; // Clear any existing content
+
+        stocks.forEach(stock => {
+            // Determine the trend based on price difference
+            const trendClass = stock.Difference > 0 ? 'trend-up' : 'trend-down';
+
+            // Create a stock card
+            const stockBox = document.createElement('div');
+            stockBox.className = `stock-box ${trendClass}`;
+            stockBox.innerHTML = `
+                <h3>${stock.TickerSymbol}</h3>
+                <p>Open Price: $${stock.OpenPrice.toFixed(2)}</p>
+                <p>Close Price: $${stock.ClosePrice.toFixed(2)}</p>
+                <p>Price Change: ${stock.Difference > 0 ? '+' : ''}${stock.Difference.toFixed(2)}</p>
+                <p>Date: ${stock.Date}</p>
+            `;
+
+            stocksContainer.appendChild(stockBox);
+        });
+    } catch (error) {
+        console.error('Error loading stocks:', error);
+    }
+}
+
+// Load stocks when the page loads
+document.addEventListener('DOMContentLoaded', loadStocks);
+
 async function deleteProfile(userId) {
     const userRole = localStorage.getItem('UserRole');
     if (!userRole || userRole !== 'admin') {
@@ -190,7 +227,6 @@ async function deleteProfile(userId) {
         console.error('Error deleting profile:', error);
     }
 }
-
 
 async function displayPortfolio() {
     // First, attempt to retrieve UserID from the URL

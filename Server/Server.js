@@ -158,6 +158,16 @@ app.get('/portfolio/:user_id', (req, res) => {
     );
 });
 
+app.get('/stocks', (req, res) => {
+    db.all(`SELECT TickerSymbol, OpenPrice, ClosePrice, Difference, Date FROM Stocks`, [], (err, rows) => {
+        if (err) {
+            console.error('Error fetching stocks:', err.message);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+        res.json(rows);
+    });
+});
+
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
