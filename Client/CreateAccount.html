@@ -10,18 +10,17 @@
     <div class="login-container">
         <div class="login-box">
             <h1>Create New Account</h1>
-            <form id="createAccountForm" action="/users" method="post" onsubmit="return submitCreateAccountForm(event)">
-                <input type="text" id="username" name="Username" placeholder="Username" required>
-                <input type="password" id="password" name="PasswordHash" placeholder="Password" required>
-                <input type="email" id="email" name="Email" placeholder="Email" required>
-                <label for="role">Role:</label>
-                <select id="role" name="Role" required>
+            <form id="createAccountForm">
+                <input type="text" name="Username" required minlength="3" maxlength="20" pattern="[a-zA-Z0-9]+" />
+                <input type="password" name="PasswordHash" required minlength="6" />
+                <input type="email" name="Email" required />
+                <select name="Role" required>
                     <option value="admin">Admin</option>
                     <option value="staff">Staff</option>
                     <option value="customer">Customer</option>
                 </select>
                 <button type="submit">Create Account</button>
-            </form>
+            </form>            
             <button class="view-stonks-button" onclick="window.location.href='stonks.html';">Just View Stonks</button>
         </div>
     </div>

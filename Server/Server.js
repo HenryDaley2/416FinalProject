@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const db = require('../Database/database.js');
 const axios = require('axios');
+const { body, validationResult } = require('express-validator');
 
 const app = express();
 app.use(express.json());
@@ -15,7 +16,12 @@ app.get('/', (req, res) => {
 });
 
 // Create user account
-app.post('/users', (req, res) => {
+app.post('/users', [
+    body('Username').isLength({ min: 3, max: 20 }).isAlphanumeric().trim().escape(),
+    body('PasswordHash').isLength({ min: 6 }).trim(),
+    body('Email').isEmail().normalizeEmail(),
+    body('Role').isIn(['admin', 'staff', 'customer']),
+], (req, res) => {
     const { Username, PasswordHash, Email, Role } = req.body;
     db.run(`INSERT INTO Users (Username, PasswordHash, Email, Role) VALUES (?, ?, ?, ?)`,
         [Username, PasswordHash, Email, Role],
@@ -28,7 +34,10 @@ app.post('/users', (req, res) => {
 });
 
 // Login
-app.post('/login', (req, res) => {
+app.post('/login', [
+    body('username').isLength({ min: 3, max: 20 }).isAlphanumeric().trim().escape(),
+    body('password').isLength({ min: 6 }).trim(),
+], (req, res) => {
     const { username, password } = req.body;
     db.get(`SELECT * FROM Users WHERE Username = ?`, [username], (err, row) => {
         if (err) {
@@ -55,7 +64,11 @@ app.post('/login', (req, res) => {
 });
 
 // Add stock to a portfolio
-app.post('/portfolios', (req, res) => {
+app.post('/portfolios', [
+    body('UserID').isInt().toInt(),
+    body('TickerSymbol').isString().trim().toUpperCase(),
+    body('SharesOwned').isInt({ min: 1 }).toInt(),
+], (req, res) => {
     const { UserID, TickerSymbol, SharesOwned } = req.body;
     if (!UserID || !TickerSymbol || !SharesOwned) {
         return res.status(400).json({ error: 'Missing required fields' });
@@ -77,7 +90,11 @@ app.post('/portfolios', (req, res) => {
 });
 
 // Remove stock from a portfolio
-app.post('/portfolio/remove', (req, res) => {
+app.post('/portfolio/remove', [
+    body('userID').isInt().toInt(),
+    body('tickerSymbol').isString().trim().toUpperCase(),
+    body('shares').isInt({ min: 1 }).toInt(),
+], (req, res) => {
     const { userID, tickerSymbol, shares } = req.body;
     if (!userID || !tickerSymbol || shares == null) {
         return res.status(400).json({ error: 'Missing required fields' });
