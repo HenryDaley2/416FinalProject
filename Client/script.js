@@ -88,8 +88,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Skip checks on Login.html and CreateAccount.html
     const isLoginPage = window.location.pathname.endsWith('Login.html');
     const isCreateAccountPage = window.location.pathname.endsWith('CreateAccount.html');
+    const isViewStonksPage = window.location.pathname.endsWith('stonks.html');
 
-    if (isLoginPage || isCreateAccountPage) {
+    if (isLoginPage || isCreateAccountPage || isViewStonksPage) {
         console.log('No UserID check required on this page.');
         return; // Exit early for login and create account pages
     }
