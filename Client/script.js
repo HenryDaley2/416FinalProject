@@ -372,3 +372,34 @@ async function removeStock(tickerSymbol, totalShares) {
         alert('An error occurred. Please try again.');
     }
 }
+
+async function loadTransactions() {
+    try {
+        const response = await fetch('/admin/transactions');
+        if (!response.ok) {
+            throw new Error('Failed to fetch transactions');
+        }
+
+        const transactions = await response.json();
+        const container = document.getElementById('transactions-container');
+        container.innerHTML = ''; // Clear existing content
+
+        transactions.forEach(transaction => {
+            const transactionDiv = document.createElement('div');
+            transactionDiv.className = 'transaction-card';
+            transactionDiv.innerHTML = `
+                <p><strong>User:</strong> ${transaction.Username}</p>
+                <p><strong>Stock:</strong> ${transaction.TickerSymbol}</p>
+                <p><strong>Action:</strong> ${transaction.Action}</p>
+                <p><strong>Shares:</strong> ${transaction.SharesChanged}</p>
+                <p><strong>Date:</strong> ${new Date(transaction.Timestamp).toLocaleString()}</p>
+            `;
+            container.appendChild(transactionDiv);
+        });
+    } catch (error) {
+        console.error('Error loading transactions:', error);
+    }
+}
+
+// Call loadTransactions when the page loads
+document.addEventListener('DOMContentLoaded', loadTransactions);

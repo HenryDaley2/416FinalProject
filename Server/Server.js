@@ -85,6 +85,18 @@ app.post('/portfolios', [
             console.error('Error adding to portfolio:', err.message);
             return res.status(500).json({ error: 'Internal server error' });
         }
+        // Log the transaction
+        db.run(
+            `INSERT INTO Transactions (UserID, TickerSymbol, Action, SharesChanged) 
+            VALUES (?, ?, ?, ?)`,
+            [UserID, TickerSymbol, 'Added to Portfolio', SharesOwned],
+            (insertErr) => {
+                if (insertErr) {
+                    console.error('Error logging transaction:', insertErr.message);
+                }
+            }
+        );
+
         res.json({ message: 'Stock added to portfolio successfully', PortfolioID: this.lastID });
     });
 });
@@ -152,6 +164,23 @@ app.get('/admin/profiles', (req, res) => {
     });
 });
 
+app.get('/admin/transactions', (req, res) => {
+    db.all(
+        `SELECT t.TransactionID, u.Username, t.TickerSymbol, t.Action, t.SharesChanged, t.Timestamp 
+        FROM Transactions t
+        JOIN Users u ON t.UserID = u.UserID
+        ORDER BY t.Timestamp DESC`,
+        [],
+        (err, rows) => {
+            if (err) {
+                console.error('Error fetching transactions:', err.message);
+                return res.status(500).json({ error: 'Internal server error' });
+            }
+            res.json(rows);
+        }
+    );
+});
+
 app.delete('/admin/profiles/:id', (req, res) => {
     const { id } = req.params;
 
@@ -206,6 +235,8 @@ app.get('/stocks', (req, res) => {
         res.json(rows);
     });
 });
+
+
 
 // Start the server
 const PORT = process.env.PORT || 3000;

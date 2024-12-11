@@ -46,6 +46,17 @@ db.serialize(() => {
         FOREIGN KEY (TickerSymbol) REFERENCES Stocks(TickerSymbol)
     )`);
 
+    db.run(`CREATE TABLE IF NOT EXISTS Transactions (
+        TransactionID INTEGER PRIMARY KEY AUTOINCREMENT,
+        UserID INTEGER NOT NULL,
+        TickerSymbol TEXT NOT NULL,
+        Action TEXT NOT NULL,
+        SharesChanged INTEGER NOT NULL,
+        Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (UserID) REFERENCES Users(UserID),
+        FOREIGN KEY (TickerSymbol) REFERENCES Stocks(TickerSymbol)
+    )`);    
+
     db.run(`CREATE TRIGGER IF NOT EXISTS update_users_updated_at
     AFTER UPDATE ON Users
     FOR EACH ROW
