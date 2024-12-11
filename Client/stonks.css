@@ -109,3 +109,75 @@ button:last-of-type:hover {
 button:last-of-type:active {
     background-color: #666666; /* Even lighter gray on active */
 }
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#search-bar {
+    width: 50%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 2px solid #2c2c2c;
+    border-radius: 5px;
+    outline: none;
+}
+
+#search-bar:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+/* Rotating Banner Styles */
+.stock-banner {
+    display: flex;
+    overflow: hidden;
+    white-space: nowrap;
+    background-color: #1a1a1a; /* Dark background */
+    color: #ffffff; /* White text */
+    padding: 10px 0;
+    border: 1px solid #333;
+    border-radius: 5px;
+    position: relative;
+    height: 50px; /* Adjust height for consistency */
+}
+
+.stock-banner div {
+    display: inline-block;
+    margin-right: 20px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.stock-banner-content {
+    display: flex;
+    animation: scroll 30s linear infinite; /* Increased duration for slower scrolling */
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.trend-up {
+    background-color: #4caf50;
+    color: #ffffff;
+}
+
+.trend-down {
+    background-color: #f44336;
+    color: #ffffff;
+}

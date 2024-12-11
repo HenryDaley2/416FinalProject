@@ -44,6 +44,56 @@ async function submitCreateAccountForm(event) {
         // Handle network or other errors
     }
 }
+async function searchStocks() {
+    const query = document.getElementById('search-bar').value.trim().toLowerCase();
+    if (!query) {
+        alert('Please enter a search query.');
+        return;
+    }
+
+    try {
+        // Fetch all stocks from the server
+        const response = await fetch('/stocks');
+        console.log(response);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch stocks: ${response.statusText}`);
+        }
+
+        const stocks = await response.json();
+        console.log(stocks);
+        // Filter stocks based on the query
+        const filteredStocks = stocks.filter(stock =>
+            stock.TickerSymbol.toLowerCase().includes(query) ||
+            stock.Date.toLowerCase().includes(query)
+        );
+
+        const resultsContainer = document.getElementById('search-results');
+        resultsContainer.innerHTML = '';
+
+        if (filteredStocks.length === 0) {
+            resultsContainer.innerHTML = '<p>No results found.</p>';
+            return;
+        }
+
+        // Display filtered results
+        filteredStocks.forEach(stock => {
+            const trendClass = stock.Difference > 0 ? 'trend-up' : 'trend-down';
+            const stockBox = document.createElement('div');
+            stockBox.className = `stock-box ${trendClass}`;
+            stockBox.innerHTML = `
+                <h3>${stock.TickerSymbol}</h3>
+                <p>Open Price: $${stock.OpenPrice.toFixed(2)}</p>
+                <p>Close Price: $${stock.ClosePrice.toFixed(2)}</p>
+                <p>Price Change: ${stock.Difference > 0 ? '+' : ''}${stock.Difference.toFixed(2)}</p>
+                <p>Date: ${stock.Date}</p>
+            `;
+            resultsContainer.appendChild(stockBox);
+        });
+    } catch (error) {
+        console.error('Error performing search:', error);
+    }
+}
+
 
 async function submitLoginForm(event) {
     event.preventDefault(); // Prevent default form submission
@@ -404,3 +454,54 @@ async function loadTransactions() {
 
 // Call loadTransactions when the page loads
 document.addEventListener('DOMContentLoaded', loadTransactions);
+
+async function loadRotatingBanner() {
+    const banner = document.getElementById('stock-banner');
+
+    try {
+        // Fetch stock data from the server
+        const response = await fetch('/stocks');
+        if (!response.ok) {
+            throw new Error('Failed to fetch stock data');
+        }
+
+        const stocks = await response.json();
+        if (stocks.length === 0) {
+            banner.innerHTML = '<p>No stock data available</p>';
+            return;
+        }
+
+        // Create banner content
+        const bannerContent = document.createElement('div');
+        bannerContent.className = 'stock-banner-content';
+
+        // Add stocks to the banner
+        stocks.forEach(stock => {
+            const stockDiv = document.createElement('div');
+            const trendClass = stock.Difference > 0 ? 'trend-up' : 'trend-down';
+
+            stockDiv.className = trendClass;
+            stockDiv.textContent = `${stock.TickerSymbol}: $${stock.ClosePrice.toFixed(2)} (${stock.Difference > 0 ? '+' : ''}${stock.Difference.toFixed(2)})`;
+            bannerContent.appendChild(stockDiv);
+        });
+
+        // Duplicate the content for seamless scrolling
+        stocks.forEach(stock => {
+            const stockDiv = document.createElement('div');
+            const trendClass = stock.Difference > 0 ? 'trend-up' : 'trend-down';
+
+            stockDiv.className = trendClass;
+            stockDiv.textContent = `${stock.TickerSymbol}: $${stock.ClosePrice.toFixed(2)} (${stock.Difference > 0 ? '+' : ''}${stock.Difference.toFixed(2)})`;
+            bannerContent.appendChild(stockDiv);
+        });
+
+        banner.innerHTML = ''; // Clear existing content
+        banner.appendChild(bannerContent);
+    } catch (error) {
+        console.error('Error loading stock banner:', error);
+        banner.innerHTML = '<p>Failed to load stock data</p>';
+    }
+}
+
+// Load the banner when the page is ready
+document.addEventListener('DOMContentLoaded', loadRotatingBanner);

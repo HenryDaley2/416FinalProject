@@ -8,6 +8,14 @@
     <script src="script.js" defer></script> <!-- Include the new JavaScript file -->
 </head>
 <body>
+    <div id="stock-banner" class="stock-banner">
+        <!-- Stocks will be dynamically loaded here -->
+    </div>
+    <div class="search-container">
+        <input type="text" id="search-bar" placeholder="Search for stocks...">
+        <button onclick="searchStocks()">Search</button>
+    </div>
+    <div id="search-results" class="portfolio-container"></div>
     <h1>All Stocks</h1>
     <div id="stocks-container" class="portfolio-container">
         <!-- Stocks will be dynamically loaded here -->
@@ -15,5 +23,7 @@
     <div class="form-container">
         <button onclick="window.location.href='ViewPortfolio.html';">View Portfolio</button>
     </div>
+    
+    
 </body>
 </html>
