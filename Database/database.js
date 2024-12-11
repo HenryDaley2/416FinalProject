@@ -46,26 +46,6 @@ db.serialize(() => {
         FOREIGN KEY (TickerSymbol) REFERENCES Stocks(TickerSymbol)
     )`);
 
-    db.run(`CREATE TABLE IF NOT EXISTS Transactions (
-        TransactionID INTEGER PRIMARY KEY AUTOINCREMENT,
-        UserID INTEGER NOT NULL,
-        StockID INTEGER NOT NULL,
-        TransactionType TEXT CHECK(TransactionType IN ('buy', 'sell')) NOT NULL,
-        Shares INTEGER NOT NULL,
-        TransactionPrice REAL NOT NULL,
-        TransactionDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (UserID) REFERENCES Users(UserID),
-        FOREIGN KEY (StockID) REFERENCES Stocks(StockID)
-    )`);
-
-    db.run(`CREATE TABLE IF NOT EXISTS AdminActions (
-        ActionID INTEGER PRIMARY KEY AUTOINCREMENT,
-        AdminID INTEGER NOT NULL,
-        ActionDescription TEXT NOT NULL,
-        ActionDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (AdminID) REFERENCES Users(UserID)
-    )`);
-
     db.run(`CREATE TRIGGER IF NOT EXISTS update_users_updated_at
     AFTER UPDATE ON Users
     FOR EACH ROW
@@ -81,8 +61,8 @@ db.serialize(() => {
     END`);
 
     // Hardcoded data for the demo in the database
-    db.run(`INSERT INTO Users (Username, PasswordHash, Email, Role) VALUES ('john_doe', 'password123', 'john@emaill.com', 'customer')`);
-    db.run(`INSERT INTO Users (Username, PasswordHash, Email, Role) VALUES ('ethan_admin', 'password123', 'ethan@emaill.com', 'admin')`);
+    db.run(`INSERT INTO Users (Username, PasswordHash, Email, Role) VALUES ('johndoe', 'password123', 'john@emaill.com', 'customer')`);
+    db.run(`INSERT INTO Users (Username, PasswordHash, Email, Role) VALUES ('ethanadmin', 'password123', 'ethan@emaill.com', 'admin')`);
       
     db.run(`INSERT INTO Portfolios (UserID, TickerSymbol, SharesOwned) VALUES (1, 'AAPL', 10)`);
     db.run(`INSERT INTO Portfolios (UserID, TickerSymbol, SharesOwned) VALUES (1, 'MSFT', 20)`);

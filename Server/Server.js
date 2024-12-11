@@ -152,6 +152,28 @@ app.get('/admin/profiles', (req, res) => {
     });
 });
 
+app.delete('/admin/profiles/:id', (req, res) => {
+    const { id } = req.params;
+
+    if (!id) {
+        return res.status(400).json({ error: 'Profile ID is required' });
+    }
+
+    db.run(`DELETE FROM Users WHERE UserID = ?`, [id], function (err) {
+        if (err) {
+            console.error('Error deleting profile:', err.message);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+
+        if (this.changes === 0) {
+            // If no rows were affected, the user doesn't exist
+            return res.status(404).json({ error: 'Profile not found' });
+        }
+
+        res.json({ message: 'Profile deleted successfully' });
+    });
+});
+
 // Fetch a portfolio by user ID
 app.get('/portfolio/:user_id', (req, res) => {
     const { user_id } = req.params;
