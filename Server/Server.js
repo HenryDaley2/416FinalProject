@@ -3,7 +3,8 @@ const path = require('path');
 const db = require('../Database/database.js');
 const axios = require('axios');
 const { body, validationResult } = require('express-validator');
-
+const bcrypt = require('bcrypt');
+const SALT_ROUNDS = 10; // Number of salt rounds for bcrypt
 const app = express();
 app.use(express.json());
 
@@ -21,47 +22,70 @@ app.post('/users', [
     body('PasswordHash').isLength({ min: 6 }).trim(),
     body('Email').isEmail().normalizeEmail(),
     body('Role').isIn(['admin', 'staff', 'customer']),
-], (req, res) => {
+], async (req, res) => {
     const { Username, PasswordHash, Email, Role } = req.body;
-    db.run(`INSERT INTO Users (Username, PasswordHash, Email, Role) VALUES (?, ?, ?, ?)`,
-        [Username, PasswordHash, Email, Role],
-        function (err) {
-            if (err) {
-                return res.status(400).json({ error: err.message });
-            }
-            res.json({ UserID: this.lastID });
-        });
+
+    try {
+        const hashedPassword = await bcrypt.hash(PasswordHash, SALT_ROUNDS);
+
+        db.run(`INSERT INTO Users (Username, PasswordHash, Email, Role) VALUES (?, ?, ?, ?)`,
+            [Username, hashedPassword, Email, Role],
+            function (err) {
+                if (err) {
+                    return res.status(400).json({ error: err.message });
+                }
+                res.json({ UserID: this.lastID });
+            });
+    } catch (error) {
+        console.error('Error hashing password:', error.message);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 });
 
 // Login
 app.post('/login', [
     body('username').isLength({ min: 3, max: 20 }).isAlphanumeric().trim().escape(),
     body('password').isLength({ min: 6 }).trim(),
-], (req, res) => {
+], async (req, res) => {
     const { username, password } = req.body;
-    db.get(`SELECT * FROM Users WHERE Username = ?`, [username], (err, row) => {
-        if (err) {
-            console.error('Database error:', err);
-            return res.status(500).send('Error logging in');
-        }
-        if (!row || row.PasswordHash !== password) {
-            console.log('Invalid login attempt');
-            return res.status(401).send('Invalid username or password');
-        }
-        console.log('Login successful');
-        res.json({
-            message: 'Login successful!',
-            user: {
-                id: row.UserID,
-                username: row.Username,
-                email: row.Email,
-                role: row.Role,
-                createdAt: row.CreatedAt,
-                updatedAt: row.UpdatedAt
+
+    try {
+        db.get(`SELECT * FROM Users WHERE Username = ?`, [username], async (err, row) => {
+            if (err) {
+                console.error('Database error:', err);
+                return res.status(500).send('Error logging in');
             }
+
+            if (!row) {
+                return res.status(401).send('Invalid username or password');
+            }
+
+            // Compare the input password with the hashed password
+            const isMatch = await bcrypt.compare(password, row.PasswordHash);
+
+            if (!isMatch) {
+                return res.status(401).send('Invalid username or password');
+            }
+
+            console.log('Login successful');
+            res.json({
+                message: 'Login successful!',
+                user: {
+                    id: row.UserID,
+                    username: row.Username,
+                    email: row.Email,
+                    role: row.Role,
+                    createdAt: row.CreatedAt,
+                    updatedAt: row.UpdatedAt
+                }
+            });
         });
-    });
+    } catch (error) {
+        console.error('Error during login:', error.message);
+        res.status(500).send('Internal server error');
+    }
 });
+
 
 // Add stock to a portfolio
 app.post('/portfolios', [
@@ -202,6 +226,23 @@ app.delete('/admin/profiles/:id', (req, res) => {
         res.json({ message: 'Profile deleted successfully' });
     });
 });
+app.get('/search', (req, res) => {
+    const { query } = req.query;
+    const sqlQuery = `
+        SELECT TickerSymbol, OpenPrice, ClosePrice, Difference, Date 
+        FROM Stocks 
+        WHERE TickerSymbol LIKE ? OR Date LIKE ?
+        ORDER BY Date DESC
+    `;
+    db.all(sqlQuery, [`%${query}%`, `%${query}%`], (err, rows) => {
+        if (err) {
+            console.error('Error searching stocks:', err.message);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+        res.json(rows);
+    });
+});
+
 
 // Fetch a portfolio by user ID
 app.get('/portfolio/:user_id', (req, res) => {
